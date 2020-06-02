@@ -1,3 +1,5 @@
+//use dto declare the Dish class
+
 export class Dish{
     id:string;
     name:string;
