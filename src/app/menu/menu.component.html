@@ -12,6 +12,7 @@ fxLayoutGap="10px">
     </div>
   </div>
 
+<!--Material grid list implementation-->
   <div fxFlex>
     <mat-grid-list cols="2" rowHeight="200px">
       <mat-grid-tile *ngFor="let dish of dishes">
@@ -23,12 +24,14 @@ fxLayoutGap="10px">
     </mat-grid-list>
   </div>
 
-  <div fxFlex *ngIf="selectedDish">
+<!--Material card module implementation-->
+  <!--div fxFlex *ngIf="selectedDish">
     <mat-card>
       <mat-card-header>
         <mat-card-title>
           <h3>{{selectedDish.name | uppercase}}</h3>
         </mat-card-title>
+        <img mat-card-avatar src={{selectedDish.image}}>
       </mat-card-header>
       <img mat-card-image src={{selectedDish.image}} alt={{selectedDish.name}}>
       <mat-card-content>
@@ -39,8 +42,9 @@ fxLayoutGap="10px">
         <button mat-button>Share</button>
       </mat-card-actions>
     </mat-card>
-  </div>
+  </!--div-->
 
+<!--Material list implementation-->
    <!--mat-list fxFlex>
     <mat-list-item *ngFor="let dish of dishes"> <*ngFor is the for loop of angular>
       <img matListAvatar src={{dish.image}} alt={{dish.name}}>
