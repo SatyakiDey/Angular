@@ -7,8 +7,10 @@
 
 <app-header></app-header>
 
-<!--Menu component(a sub-component)-->
-<app-menu></app-menu>
+
+<router-outlet></router-outlet> <!--Omitted the menu component to add the "router-outlet" directive so that the default routed component(which is "HomeComponent" in this case) will be juxtaposed between header and footer components-->
 
 <app-footer></app-footer>
+
+
 
