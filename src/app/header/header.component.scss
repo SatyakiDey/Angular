@@ -3,6 +3,14 @@ $background-dark: #512DA8;
 $background-light: #9575CD;
 $background-pale: #D1C4E9;
 
+mat-toolbar{
+position:sticky;
+top:0;
+max-width:100%;
+overflow:auto;
+z-index: 1000;// for contents of the page not to overlap
+}
+
 @mixin zero-margin($pad-up-down, $pad-left-right) {
     margin: 0px auto;
     padding: $pad-up-down $pad-left-right;
