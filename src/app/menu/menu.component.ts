@@ -3,7 +3,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Dish} from 'src/app/shared/dish'; //or '../shared/dish'
 
-import {DishService} from '../services/dish.service';
+import {DishService} from '../services/dish.service'; //the component which uses a "Service"(DishService in this case) will have to- 1)declare a variable(s) of type 'DishService" class, of the service, in the constructor.This variable(s) will be used to call the required service method(s)(getDishes() in this case) of the exported service class, 2) implement the life cycle method named "ngOnit()" which would store the value returned by the required method of the service.
 
 @Component({
   selector: 'app-menu',

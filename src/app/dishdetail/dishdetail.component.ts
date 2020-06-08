@@ -1,5 +1,5 @@
 import { Component, OnInit,Input} from '@angular/core';
-//"Input" module is used to make use of "dish" property that is declared in menu component template file(which is also ="selectedDish"). It has to be also toppe off by declaring Input decoarator "@Input" .
+//"Input" module is used to make use of "dish" property that is declared in menu component template file(which is also ="selectedDish"). It has to be also topped off by declaring Input decorator "@Input" .
 import {Dish} from '../shared/dish';
 @Component({
   selector: 'app-dishdetail',

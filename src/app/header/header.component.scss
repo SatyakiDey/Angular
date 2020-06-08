@@ -2,6 +2,7 @@ $lt-gray: #ddd;
 $background-dark: #512DA8;
 $background-light: #9575CD;
 $background-pale: #D1C4E9;
+$backgorund-moredark: #4527A0;
 
 mat-toolbar{
 position:sticky;
@@ -21,4 +22,8 @@ z-index: 1000;// for contents of the page not to overlap
     background: $background-light ;
     color:floralwhite;
     //min-height: 150px;
+}
+
+.active{
+    background-color: $backgorund-moredark;
 }
