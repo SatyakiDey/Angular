@@ -1,6 +1,6 @@
 import { Component, OnInit,Input} from '@angular/core'; //using Angular Router to bring the selected dish object. So, Input module is not currently being used.
 
-import {Params, ActivatedRoute} from '@angular/router';
+import {Params, ActivatedRoute} from '@angular/router'; //ActivatedRoute is also a service
 import {Location} from '@angular/common';// a service
 
 
