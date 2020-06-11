@@ -7,15 +7,15 @@ import { LEADERS } from '../shared/Leaders';
 })
 export class LeaderService {
 
-  getLeaders():Leader[]{
-    return LEADERS;
+  getLeaders():Promise<Leader[]>{
+    return Promise.resolve(LEADERS);
   }
-  getLeader(id:string):Leader {
-    return LEADERS.filter((SpecificLeader) => (SpecificLeader.id === id))[0];
+  getLeader(id:string):Promise<Leader> {
+    return Promise.resolve(LEADERS.filter((SpecificLeader) => (SpecificLeader.id === id))[0]);
   }
 
-  getFeaturedService():Leader{
-    return LEADERS.filter((FeaturedLeader) => FeaturedLeader.featured)[0];
+  getFeaturedService():Promise<Leader>{
+    return Promise.resolve(LEADERS.filter((FeaturedLeader) => FeaturedLeader.featured)[0]);
   }
   constructor() { }
 }

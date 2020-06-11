@@ -44,7 +44,7 @@ export class ContactComponent implements OnInit {
         agree:false,
         contact:'None',
         message:''
-      });
+      }); //this is done to reset the form attributes to the default values, usin just rest() will clear out all the fields of the forms.
       this.feedbackFormDirective.resetForm();
     }
     
