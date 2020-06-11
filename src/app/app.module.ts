@@ -32,6 +32,8 @@ import {MatFormFieldModule} from '@angular/material/form-field'; //used to group
 import {MatInputModule} from '@angular/material/input'; //create a input field
 import {MatCheckboxModule} from '@angular/material/checkbox'; //for chackbox
 import {FormsModule} from '@angular/forms';
+import {MatSelectModule} from '@angular/material/select';
+
 
 @NgModule({
   declarations: [
@@ -60,7 +62,7 @@ import {FormsModule} from '@angular/forms';
     MatCheckboxModule,
     FormsModule,
     MatFormFieldModule,
-
+    MatSelectModule,
   ],
   providers: [
     DishService,

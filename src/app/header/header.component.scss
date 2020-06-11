@@ -5,10 +5,10 @@ $background-pale: #D1C4E9;
 $backgorund-moredark: #4527A0;
 
 mat-toolbar{
-position:sticky;
+position:fixed;
 top:0;
 max-width:100%;
-overflow:auto;
+//overflow:auto;
 z-index: 1000;// for contents of the page not to overlap
 }
 
