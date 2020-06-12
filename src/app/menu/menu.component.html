@@ -13,7 +13,7 @@ fxLayoutGap="10px">
   </div>
 
 <!--Material grid list implementation-->
-  <div fxFlex>
+  <div fxFlex *ngIf="dishes">
     <mat-grid-list cols="2" rowHeight="200px">
       <mat-grid-tile *ngFor="let dish of dishes" [routerLink]="['/dishdetail',dish.id]">
         <img height="200px" src={{dish.image}} alt={{dish.name}} style="cursor: pointer">
@@ -22,6 +22,9 @@ fxLayoutGap="10px">
         </mat-grid-tile-footer>
       </mat-grid-tile>
     </mat-grid-list>
+  </div>
+  <div fxFlex [hidden]="dishes">
+    <mat-spinner></mat-spinner> <h4>Loading.....Please Wait</h4>
   </div>
 
 <!--Material card module implementation-->
