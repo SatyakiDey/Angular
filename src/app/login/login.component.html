@@ -13,7 +13,7 @@
       <mat-form-field appearance="outline">
         <mat-label>E-mail</mat-label>
         <input matInput placeholder="abcde@gmail.com" type ="email" 
-        name="email" [(ngModel)]="user.email" name="email"
+        name="email" [(ngModel)]="user.email"
         #email="ngModel" email required>
         <mat-error *ngIf="email.errors?.email">Email is invalid</mat-error>
         <mat-error *ngIf="email.errors?.required">Email is required</mat-error>

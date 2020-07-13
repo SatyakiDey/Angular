@@ -18,11 +18,12 @@ fxLayoutGap="10px">
       <mat-grid-tile *ngFor="let dish of dishes" [routerLink]="['/dishdetail',dish.id]">
         <img height="200px" src={{dish.image}} alt={{dish.name}} style="cursor: pointer">
         <mat-grid-tile-footer style="cursor: pointer;">
-          <h1 matLine > {{dish.name | uppercase}} </h1>
+          <h1 matLine > {{dish.name | uppercase}} </h1> <!--matLine is used to fit multiple elements in a span element-->
         </mat-grid-tile-footer>
       </mat-grid-tile>
     </mat-grid-list>
   </div>
+  <!--The following div element is shown when the value of "dishes" is null-->
   <div fxFlex [hidden]="dishes">
     <mat-spinner></mat-spinner> <h4>Loading.....Please Wait</h4>
   </div>

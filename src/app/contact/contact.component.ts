@@ -9,13 +9,15 @@ import {Feedback,ContactType} from '../shared/feedback';
 })
 export class ContactComponent implements OnInit {
 
-  feedbackForm :FormGroup;
+  feedbackForm :FormGroup; //formGroup's instance is used to represent and access a form in code
   feedback:Feedback;
   contactType=ContactType;
-  @ViewChild('fform') feedbackFormDirective;
 
-  constructor(private fb:FormBuilder) { 
-    this.createForm();
+  @ViewChild('fform') feedbackFormDirective; //this is used to access DOM elememts of the template. We can obtain references to template elements and have them injected into the our Component class by querying the template: that's what @ViewChild is for.
+
+  constructor(private fb:FormBuilder) {  //formBuilder is used to create formGroups and use formControl. Creating it inside a constructor means that it'll get created when the class is created(Dependency Injection).
+
+    this.createForm(); //used to create the form according to Angular's form styling guidelines.
   }
 
   ngOnInit() {
@@ -23,6 +25,8 @@ export class ContactComponent implements OnInit {
  
   createForm()
     {
+      //Making the feedbackForm equal to the returned value of the 'group' method of FormBuilder class.
+
       this.feedbackForm=this.fb.group({
         firstname:['',Validators.required],
         lastname:['',Validators.required],
@@ -44,7 +48,7 @@ export class ContactComponent implements OnInit {
         agree:false,
         contact:'None',
         message:''
-      }); //this is done to reset the form attributes to the default values, usin just rest() will clear out all the fields of the forms.
+      }); //this is done to reset the form attributes to the default values, using just reset() will only clear out all the fields of the forms.
       this.feedbackFormDirective.resetForm();
     }
     

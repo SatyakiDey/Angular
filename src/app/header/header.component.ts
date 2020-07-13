@@ -18,3 +18,6 @@ export class HeaderComponent implements OnInit {
     this.dialog.open(LoginComponent, {width:'620px',height:'600px'});
   }
 }
+
+//"MatDialog" is used to open a Material dialog-box 
+//"MatDialogRef" is used to address the dialog-box(like closing it)
