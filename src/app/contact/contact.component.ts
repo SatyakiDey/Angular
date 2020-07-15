@@ -71,7 +71,8 @@ export class ContactComponent implements OnInit {
       this.onValueChanged(); //reset form validation messages
     }
 
-    onValueChanged(data?:any){
+    onValueChanged(data?:any){ 
+      //Use of '?' after any attribute declares it as optional. Thus, this method may or may not have parameters passed to it.
       if(!this.feedbackForm){return;}
       const form=this.feedbackForm;
       for(const field in this.formErrors){

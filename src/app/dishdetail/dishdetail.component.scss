@@ -1,0 +1,21 @@
+$background-dark: #512DA8;
+$background-pale: #D1C4E9;
+
+.fullwidth{
+    width:95%
+}
+.half-width{
+    width:45%
+}
+
+.submit-button{
+    background-color:$background-dark;
+    color:floralwhite;
+}
+
+button[disabled]
+{
+    background-color:$background-pale;
+    color: black;
+    cursor: not-allowed;
+}

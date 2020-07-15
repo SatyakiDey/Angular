@@ -43,7 +43,7 @@
     <form novalidate [formGroup]="feedbackForm" (ngSubmit)="onSubmit()" #fform="ngForm">
       <p>
         <mat-form-field class="half-width">
-          <input matInput formControlName='firstname' placeholder="First Name" type="text" required minlength="2" maxlength="25">
+          <input matInput formControlName='firstname' placeholder="Full Name" type="text" required minlength="2" maxlength="25">
           <mat-error *ngIf="formErrors.firstname">{{ formErrors.firstname }}</mat-error>
         </mat-form-field>
         <mat-form-field class="half-width" style="float: right;">

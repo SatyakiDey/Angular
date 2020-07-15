@@ -32,16 +32,47 @@
     </mat-card>
   </div>
 
-  <div fxFlex="40" *ngIf="dish">
-    <mat-list>
-      <h3>Comments</h3>
-      <mat-list-item *ngFor="let i of dish.comments">
-          <p matLine>{{i.comment}}</p>
-          <p matLine>{{i.rating}}</p>
-          <p matLine><span>--{{i.author}}</span>{{i.date | date}}</p>
-      </mat-list-item>
-    </mat-list>
+  <div fxFlex="40" fxLayout="column" fxLayoutGap="10px" *ngIf="dish">
+    <div fxFlex>
+      <mat-list>
+        <h3>Comments</h3>
+        <mat-list-item *ngFor="let i of dish.comments">
+            <p matLine>{{i.comment}}</p>
+            <p matLine>{{i.rating}}</p>
+            <p matLine><span>--{{i.author}}</span>{{i.date | date}}</p>
+        </mat-list-item>
+      </mat-list>
+    </div>
+    <div fxFlex>
+      <mat-list *ngIf="commentForm.valid">
+        <mat-list-item>
+          <p matLine>{{commentForm.value.comment}}</p>
+          <p matLine>{{commentForm.value.rating}}</p>
+          <p matLine><span>--{{commentForm.value.fullname}}</span></p>
+        </mat-list-item>
+      </mat-list>
+      <form novalidate [formGroup]="commentForm" (ngSubmit)="onSubmit()" #cform="ngForm">
+        <p>
+          <mat-form-field class="fullwidth">
+            <input matInput type="text" formControlName="fullname" id="fullname" placeholder="Name" required minlength="2" maxlength="25">
+            <mat-error *ngIf="formErrors">{{ formErrors.fullname }}</mat-error>
+          </mat-form-field>
+        </p>
+        <p>
+            <mat-slider matInput formControlName="rating" min="1" max="5" step="1" value="5" thumbLabel tickInterval="1"></mat-slider>
+        </p>
+        <p>
+          <mat-form-field class="fullwidth">
+            <textarea matInput formControlName="comment" id="comment" placeholder="Comment about this dish" required>
+            </textarea>
+            <mat-error *ngIf="formErrors">{{ formErrors.comment }}</mat-error>
+          </mat-form-field>
+        </p>
+        <button class="submit-button" type="submit" mat-button [disabled]="commentForm.invalid">Submit</button>
+      </form>
+    </div>
   </div>
+  
   <div fxFlex="40" [hidden]="dish">
     <mat-spinner></mat-spinner> <h4>Loading.....Please Wait</h4>
   </div>
