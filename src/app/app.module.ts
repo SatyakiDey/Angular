@@ -37,6 +37,8 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatSliderModule} from '@angular/material/slider';
+import {HttpClientModule} from '@angular/common/http';
+import {baseURL} from './shared/baseURL'; 
 
 @NgModule({
   declarations: [
@@ -70,12 +72,14 @@ import {MatSliderModule} from '@angular/material/slider';
     MatSlideToggleModule,
     MatProgressSpinnerModule,
     MatSliderModule,
+    HttpClientModule,
     
   ],
   providers: [
     DishService,
     PromotionService,
-    LeaderService
+    LeaderService,
+    {provide:'BaseURL', useValue: baseURL} //this way the 'baseURL' value is supplied as a value provider to rest of    the application.
   ],
   entryComponents:[
     LoginComponent

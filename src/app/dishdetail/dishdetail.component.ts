@@ -1,4 +1,4 @@
-import { Component, OnInit,Input,ViewChild} from '@angular/core'; //using Angular Router to bring the selected dish object. So, Input module is not currently being used.
+import { Component, OnInit,Input,ViewChild,Inject} from '@angular/core'; //using Angular Router to bring the selected dish object. So, Input module is not currently being used.
 
 import {Params, ActivatedRoute} from '@angular/router'; //ActivatedRoute is also a service
 import {Location} from '@angular/common';// a service
@@ -45,7 +45,7 @@ export class DishdetailComponent implements OnInit {
   };
   
 
-  constructor(private dishService:DishService,private route:ActivatedRoute, private location:Location,private fb:FormBuilder) {
+  constructor(private dishService:DishService,private route:ActivatedRoute, private location:Location,private fb:FormBuilder,@Inject('BaseURL') private BaseURL) {
     this.createForm();
    }
 

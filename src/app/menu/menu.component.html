@@ -16,7 +16,7 @@ fxLayoutGap="10px">
   <div fxFlex *ngIf="dishes">
     <mat-grid-list cols="2" rowHeight="200px">
       <mat-grid-tile *ngFor="let dish of dishes" [routerLink]="['/dishdetail',dish.id]">
-        <img height="200px" src={{dish.image}} alt={{dish.name}} style="cursor: pointer">
+        <img height="200px" src="{{BaseURL + dish.image}}" alt={{dish.name}} style="cursor: pointer">
         <mat-grid-tile-footer style="cursor: pointer;">
           <h1 matLine > {{dish.name | uppercase}} </h1> <!--matLine is used to fit multiple elements in a span element-->
         </mat-grid-tile-footer>

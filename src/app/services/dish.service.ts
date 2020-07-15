@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import {Dish} from '../shared/dish';
-import {DISHES} from '../shared/dishes';
+//import {DISHES} from '../shared/dishes';
 import { resolve } from 'url';
 import {of,Observable} from 'rxjs';
-import {delay} from 'rxjs/operators'; //used to delay the time after which 'Observables' emits data.
+import {delay, map} from 'rxjs/operators'; //used to delay the time after which 'Observables' emits data.
+import {HttpClient} from '@angular/common/http';
+import {baseURL} from '../shared/baseurl';
 
 //Promise returns only one data whereas Observable returns a stream of data.
 
@@ -12,7 +14,7 @@ import {delay} from 'rxjs/operators'; //used to delay the time after which 'Obse
 })
 export class DishService {
 
-  constructor() { }
+  constructor(private http:HttpClient) { }
 
   getDishes(): Observable<Dish[]> {
  // return Promise.resolve(DISHES); for values that are instanteneouly available which is not mostly the case.
@@ -26,7 +28,8 @@ export class DishService {
 
  //Using promise is not recommended because the HTTP methods will return Observables which the components that require can subscribe to.
 
- return of(DISHES).pipe(delay(2000));
+ //return of(DISHES).pipe(delay(2000));
+ return this.http.get<Dish[]>(baseURL+ 'dishes/');
 
   }
 
@@ -40,7 +43,10 @@ export class DishService {
 
     //return of(DISHES.filter((dish) => (dish.id === id))[0]).pipe(delay(2000)).toPromise();
 
-    return of(DISHES.filter((dish) => (dish.id === id))[0]).pipe(delay(2000));
+    //return of(DISHES.filter((dish) => (dish.id === id))[0]).pipe(delay(2000));
+
+    return this.http.get<Dish>(baseURL+ 'dishes/'+id);
+
   }
 
   getFeaturedDish():Observable<Dish>{
@@ -52,10 +58,14 @@ export class DishService {
 
     //return of(DISHES.filter((dish) => dish.featured)[0]).pipe(delay(2000)).toPromise();
 
-    return of(DISHES.filter((dish) => dish.featured)[0]).pipe(delay(2000));
+    //return of(DISHES.filter((dish) => dish.featured)[0]).pipe(delay(2000));
+    return this.http.get<Dish[]>(baseURL+ 'dishes?featured=true') //'?' or qurey paramter checks the Dish array where the featured attribute is set to 'true'. Qurey paramter returns an array of 'Dish' objects. In this scenario, it will return the array containing only one element which is obtained by refering to the first element of the array.
+    .pipe(map(dishes => dishes[0])); //we have to use 'pipe' operator in conjuction with map because we have omitted the 'of' operator and 'map' operator doesn't return an Observable.
+
   }
 
   getDishIds():Observable<string []>{
-    return of(DISHES.map(dish => dish.id));
-  }
+    //return of(DISHES.map(dish => dish.id));
+    return this.getDishes().pipe(map(dishes => dishes.map(dish => dish.id))); //The first 'dishes' parameter is a Dish[] with all the dish details. This parameter is used by first 'map' operator to operate on this Dish[] which is then sent to the inner 'map' operator to operate on each dish elements to get it's repective id. 'Map' operator is used because it can operate on Observables.
+    }
 }
