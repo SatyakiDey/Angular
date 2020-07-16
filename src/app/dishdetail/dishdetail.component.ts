@@ -27,6 +27,7 @@ export class DishdetailComponent implements OnInit {
   next:string;
   commentForm:FormGroup;
   comment:Comment;
+  errMsg:string;
 
   formErrors={
     'fullname':'',
@@ -57,7 +58,8 @@ export class DishdetailComponent implements OnInit {
 
 
     this.route.params.pipe(switchMap((params:Params) => this.dishService.getDish(params['id'])))
-    .subscribe(dish => {this.dish=dish; this.setPrevNext(dish.id);} ); //switchMap operator is used to get the value of ID from the inner observable(i.e,getDish()) to the outer params observable using the above function. The function returns a 'dish' object which is then subscribed to the local 'dish' object of this component file through the outer 'params' observable. 
+    .subscribe(dish => {this.dish=dish; this.setPrevNext(dish.id);} ,
+    errMsg => this.errMsg=<any>errMsg); //switchMap operator is used to get the value of ID from the inner observable(i.e,getDish()) to the outer params observable using the above function. The function returns a 'dish' object which is then subscribed to the local 'dish' object of this component file through the outer 'params' observable. 
     //We want to modify the next and prev variables everytime a new dish object is obtained. So we are calling the "setPrevNext()" method for every new dish object.
 
     /*this.dishService.getDish(id)

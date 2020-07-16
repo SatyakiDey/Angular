@@ -16,6 +16,7 @@ import { LoginComponent } from './login/login.component';
 import {DishService} from './services/dish.service';
 import {PromotionService} from './services/promotion.service';
 import {LeaderService} from './services/leader.service';
+import {ProcessHTTPMsgService} from './services/process-httpmsg.service';
 
 import {MatListModule} from '@angular/material/list';
 import  {MatGridListModule} from '@angular/material/grid-list';
@@ -79,6 +80,7 @@ import {baseURL} from './shared/baseURL';
     DishService,
     PromotionService,
     LeaderService,
+    ProcessHTTPMsgService,
     {provide:'BaseURL', useValue: baseURL} //this way the 'baseURL' value is supplied as a value provider to rest of    the application.
   ],
   entryComponents:[

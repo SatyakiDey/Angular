@@ -12,6 +12,7 @@ import {DishService} from '../services/dish.service'; //the component which uses
 })
 export class MenuComponent implements OnInit {
   dishes:Dish[];
+  errMess:string;
   //selectedDish :Dish ;
 
   constructor(private dishService: DishService,
@@ -25,7 +26,8 @@ export class MenuComponent implements OnInit {
     .then((dishes) => this.dishes = dishes);  'then' method is used to get hold of the data returned by 'resolve' of promise. */
 
     this.dishService.getDishes()
-    .subscribe((dishes) => this.dishes = dishes);
+    .subscribe((dishes) => this.dishes = dishes,
+    errMess => this.errMess=<any>errMess);
     
     //This is a life cycle method. This method fetches relevant information from the service using the variable we declared in the constructor. "getDishes()" is a method of the service.
   }

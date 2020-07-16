@@ -7,6 +7,7 @@ import {PromotionService} from '../services/promotion.service';
 import {Leader} from "../shared/leader";
 import {LeaderService} from '../services/leader.service';
 
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -17,6 +18,9 @@ export class HomeComponent implements OnInit {
   promotion:Promotion;
   dish:Dish;
   featuredLeader:Leader;
+  dishErrMsg:string;
+  promotionErrMsg:string;
+  leaderErrMsg:string;
   constructor(private DishService:DishService , private promotionService:PromotionService, private leaderService:LeaderService,@Inject('BaseURL') private BaseURL) { }
 
   ngOnInit() {
@@ -30,12 +34,15 @@ export class HomeComponent implements OnInit {
     .then((featuredLeader) => this.featuredLeader=featuredLeader);*/
 
     this.DishService.getFeaturedDish()
-    .subscribe((dish) => this.dish=dish);
+    .subscribe((dish) => this.dish=dish,
+    dishErrMsg => this.dishErrMsg=<any>dishErrMsg);
 
     this.promotionService.getFeaturedPromotion()
-    .subscribe((promotion) => this.promotion = promotion);
+    .subscribe((promotion) => this.promotion = promotion,
+    promotionErrMsg => this.promotionErrMsg=<any>promotionErrMsg);
 
     this.leaderService.getFeaturedService()
-    .subscribe((featuredLeader) => this.featuredLeader=featuredLeader);
+    .subscribe((featuredLeader) => this.featuredLeader=featuredLeader,
+    leaderErrMsg => this.leaderErrMsg=<any>leaderErrMsg);
   }
 }
