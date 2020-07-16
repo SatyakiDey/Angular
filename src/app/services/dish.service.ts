@@ -4,7 +4,7 @@ import {Dish} from '../shared/dish';
 import { resolve } from 'url';
 import {of,Observable} from 'rxjs';
 import {delay, map,catchError} from 'rxjs/operators'; //used to delay the time after which 'Observables' emits data.
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {baseURL} from '../shared/baseurl';
 import {ProcessHTTPMsgService} from './process-httpmsg.service';
 
@@ -75,5 +75,19 @@ export class DishService {
     //return of(DISHES.map(dish => dish.id));
     return this.getDishes().pipe(map(dishes => dishes.map(dish => dish.id)))
     .pipe(catchError(error => error)); //The first 'dishes' parameter is a Dish[] with all the dish details. This parameter is used by first 'map' operator to operate on this Dish[] which is then sent to the inner 'map' operator to operate on each dish elements to get it's repective id. 'Map' operator is used because it can operate on Observables.
+    }
+
+    //This method takes in the modified 'dish' object, performs 'put' operation on the server and returns the modified 'dish' to the component using it.
+    putDish(dish : Dish):Observable<Dish>{
+      const httpOptions={
+        headers:new HttpHeaders({
+          'Content-type':'application/json' //this declares that the server should communicate with the client using hhtp protocol with data being encoded in json format. 
+        })
+      };
+
+      return this.http.put<Dish>(baseURL+'dishes/'+dish.id,dish,httpOptions)
+      .pipe(catchError(this.processHTTPMsgService.handleError));
+
+      //The above statement uses the http-put-method(containing the url to whose resource should be modified, the data to which the resourse(being pointed by the url) should be modified known as body and the headerOption) and then  returns the updated resource.
     }
 }

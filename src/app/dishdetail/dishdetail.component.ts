@@ -28,6 +28,7 @@ export class DishdetailComponent implements OnInit {
   commentForm:FormGroup;
   comment:Comment;
   errMsg:string;
+  dishCopy:Dish;
 
   formErrors={
     'fullname':'',
@@ -58,7 +59,11 @@ export class DishdetailComponent implements OnInit {
 
 
     this.route.params.pipe(switchMap((params:Params) => this.dishService.getDish(params['id'])))
-    .subscribe(dish => {this.dish=dish; this.setPrevNext(dish.id);} ,
+    .subscribe(dish => {
+      this.dish=dish; 
+      this.dishCopy=dish; //also assigning the fetched dish object to the dish copy variable for modifying it's 'comments[]' .
+      this.setPrevNext(dish.id);
+      },
     errMsg => this.errMsg=<any>errMsg); //switchMap operator is used to get the value of ID from the inner observable(i.e,getDish()) to the outer params observable using the above function. The function returns a 'dish' object which is then subscribed to the local 'dish' object of this component file through the outer 'params' observable. 
     //We want to modify the next and prev variables everytime a new dish object is obtained. So we are calling the "setPrevNext()" method for every new dish object.
 
@@ -81,7 +86,7 @@ export class DishdetailComponent implements OnInit {
       fullname:['',[Validators.required,Validators.minLength,Validators.maxLength]],
       rating:[5],
       comment:['',[Validators.required]]
-    });
+    }); 
   }
 
   onValueChanged(data?:any){
@@ -93,7 +98,7 @@ export class DishdetailComponent implements OnInit {
         const control=form.get(field);
         if(control && control.dirty && !control.valid){
           const messages=this.validationMessages[field];
-          for(const key in control.errors){
+          for(const key in control.errors){ 
             if(control.errors.hasOwnProperty(key)){
               this.formErrors[field] += messages[key]+" ";
             }
@@ -124,13 +129,29 @@ export class DishdetailComponent implements OnInit {
       author:this.commentForm.value.fullname,
       date:new Date().toISOString(),
     };
+
+      if(!this.dishCopy.comments.includes(this.comment)) 
+        this.dishCopy.comments.push(this.comment); //pushing the updated locally comments to the 'dishCopy' instead of the actual 'dish' object.
+        console.log(this.dish);
+        this.dishService.putDish(this.dishCopy) //sending the 'dishCopy' instead of the actual 'dish' object because 'dishCopy' was updated locally with th enew comment. This is done to ensure that the actual 'dish' objec is not tampered with in case any error arises.
+        .subscribe(dish => {
+          this.dish=dish;
+          this.dishCopy=dish;
+        },
+        errMsg => {
+          this.dish=null; //in case any error arises both the concerne dish objects are set to null.
+          this.dishCopy=null;
+          this.errMsg=<any>errMsg;//error message is stored in the errMsg variable to be rendered in the component as and when required.
+        }); 
+    /*
+    My Version (unnecessary code)
     this.route.params.pipe(switchMap((params:Params) => this.dishService.getDish(params['id'])))
     .subscribe(dish => {
       this.dish=dish;
       if(!this.dish.comments.includes(this.comment)) 
         this.dish.comments.push(this.comment);
         console.log(this.dish);
-    } );
+    } );*/
     this.commentFormDirective.resetForm();
     this.commentForm.reset({
       fullname:'',
