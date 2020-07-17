@@ -10,25 +10,20 @@ import {Comment} from '../shared/comment';
 import {DishService} from '../services/dish.service';
 import {switchMap} from 'rxjs/operators';
 import{FormBuilder,FormGroup,Validators} from '@angular/forms';
-import {trigger,state,style,animate,transition} from '@angular/animations';
-
+import {visibility,flyInOut,expand} from '../animations/app.animation';
 
 @Component({
   selector: 'app-dishdetail',
   templateUrl: './dishdetail.component.html',
   styleUrls: ['./dishdetail.component.scss'],
-  animations:[
-    trigger('visibility',[
-      state('shown',style({
-        transform:'scale(1.0)',
-        opacity:1
-      })),
-      state('hidden',style({
-        transform:'scale(0.5)',
-        opacity:0
-      })),
-      transition('* =>*',animate('0.5s ease-in-out'))
-    ])
+  host:{
+    '[@flyInOut]':'true',
+    'style':'display:block;' //when the view changes from one 'dish' object to another then this animstion is triggered.
+  },
+  animations: [ //decalres all the animations for this component
+    visibility(),
+    flyInOut(),
+    expand()
   ]
 })
 
@@ -74,7 +69,7 @@ export class DishdetailComponent implements OnInit {
     this.dishService.getDishIds().subscribe((dishIds) => this.dishIds=dishIds);
 
 
-    this.route.params.pipe(switchMap((params:Params) => {this.visibility='hidden';return this.dishService.getDish(params['id']);}))
+    this.route.params.pipe(switchMap((params:Params) => {this.visibility="hidden";return this.dishService.getDish(params['id']);}))
     .subscribe(dish => {
       this.dish=dish; 
       this.dishCopy=dish; //also assigning the fetched dish object to the dish copy variable for modifying it's 'comments[]' .
@@ -148,9 +143,9 @@ export class DishdetailComponent implements OnInit {
     };
 
       if(!this.dishCopy.comments.includes(this.comment)) 
-        this.dishCopy.comments.push(this.comment); //pushing the updated locally comments to the 'dishCopy' instead of the actual 'dish' object.
+        this.dishCopy.comments.push(this.comment); //pushing the locally updated comments to the 'dishCopy' instead of the actual 'dish' object.
         console.log(this.dish);
-        this.dishService.putDish(this.dishCopy) //sending the 'dishCopy' instead of the actual 'dish' object because 'dishCopy' was updated locally with th enew comment. This is done to ensure that the actual 'dish' objec is not tampered with in case any error arises.
+        this.dishService.putDish(this.dishCopy) //sending the 'dishCopy' instead of the actual 'dish' object because 'dishCopy' was updated locally with the new comment. This is done to ensure that the actual 'dish' objec is not tampered with in case any error arises.
         .subscribe(dish => {
           this.dish=dish;
           this.dishCopy=dish;
