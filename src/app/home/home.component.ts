@@ -8,8 +8,6 @@ import {Leader} from "../shared/leader";
 import {LeaderService} from '../services/leader.service';
 import {flyInOut,expand} from '../animations/app.animation';
 
-
-
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -31,6 +29,8 @@ export class HomeComponent implements OnInit {
   dishErrMsg:string;
   promotionErrMsg:string;
   leaderErrMsg:string;
+
+
   constructor(private DishService:DishService , private promotionService:PromotionService, private leaderService:LeaderService,@Inject('BaseURL') private BaseURL) { }
 
   ngOnInit() {

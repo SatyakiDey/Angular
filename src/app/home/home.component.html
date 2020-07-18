@@ -33,7 +33,7 @@
       <h3>{{promotion.name | uppercase}}</h3>
     </mat-card-title>
   </mat-card-header>
-  <img mat-card-image src={{promotion.image}} alt={{promotion.name}}>
+  <img mat-card-image src="{{BaseURL+promotion.image}}" alt={{promotion.name}}>
   <mat-card-content>
     <p>{{promotion.description}}
     </p>
@@ -54,7 +54,7 @@
      <h3>{{featuredLeader.name | uppercase}}</h3> 
     </mat-card-title>
   </mat-card-header>
-  <img mat-card-image src={{featuredLeader.image}} alt={{featuredLeader.image}}>
+  <img mat-card-image src="{{BaseURL+featuredLeader.image}}" alt={{featuredLeader.image}}>
   <mat-card-content>
     <p>{{featuredLeader.designation}}
     </p>
@@ -67,6 +67,6 @@
 </div>
 <div fxFlex *ngIf="leaderErrMsg">
   <h2>Error</h2>
-  <h4>{{errMess}}</h4>
+  <h4>{{leaderErrMsg}</h4>
 </div>
 </div>

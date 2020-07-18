@@ -37,51 +37,86 @@
   </div>
 
 
-  <div fxFlex fxFlexOffset="20px" class="form-size">
+  <div fxFlex fxLayout="column" fxFlexOffset="20px" class="form-size">
     <h3>Send Us your Feedback</h3>
-    <p>{{ feedbackForm.value | json}} {{ feedbackForm.status | json }}</p>
-    <form novalidate [formGroup]="feedbackForm" (ngSubmit)="onSubmit()" #fform="ngForm">
-      <p>
-        <mat-form-field class="half-width">
-          <input matInput formControlName='firstname' placeholder="Full Name" type="text" required minlength="2" maxlength="25">
-          <mat-error *ngIf="formErrors.firstname">{{ formErrors.firstname }}</mat-error>
-        </mat-form-field>
-        <mat-form-field class="half-width" style="float: right;">
-          <input matInput formControlName='lastname' placeholder="Last Name" type="text" required minlength="2" maxlength="25">
-          <!--Following code can be highly reduced because we have done everthing in our component file-->
-          <!--mat-error *ngIf="feedbackForm.get('lastname').hasError('required') && feedbackForm.get('lastname').touched">Last name is required</!--mat-error-->
-          <mat-error *ngIf="formErrors.lastname">{{formErrors.lastname}}</mat-error>
-        </mat-form-field>
-      </p>
-      <p>
-        <mat-form-field class="half-width">
-          <input matInput formControlName='telnum' placeholder="Telephone Number" type="tel" required pattern="[0-9]*">
-          <mat-error *ngIf="formErrors.telnum">{{formErrors.telnum}}</mat-error>
-        </mat-form-field>
-        <mat-form-field class="half-width" style="float: right;">
-          <input matInput formControlName='email' placeholder="E-mail" type="email" required email>
-          <mat-error *ngIf="formErrors.email">{{formErrors.email}}</mat-error>
-        </mat-form-field>
-      </p>
-      <table class="form-size">
-        <td>
-          <mat-slide-toggle formControlName="agree">May we contact you?</mat-slide-toggle>
-        </td>
-        <td>
-          <mat-select placeholder="How?" formControlName="contacttype">
-            <mat-option *ngFor="let ctype of contactType" [value]="ctype">
-              {{ ctype }}
-            </mat-option>
-          </mat-select>
-        </td>
-      </table>
-      <p>
-        <mat-form-field class="fullwidth">
-          <textarea matInput formControlName="message" placeholder="Your Feedback" rows=12>
-          </textarea>
-        </mat-form-field>
-      </p>
-      <button type="submit" mat-button [disabled]="feedbackForm.invalid">Submit</button>
-    </form>
+    <div fxFlex *ngIf="feedbackCopy" [@expand]>
+      <h4>Your Submission</h4>
+      <mat-list>
+        <mat-list-item>
+          <span>First Name: {{feedbackCopy.firstname}}</span> 
+        </mat-list-item>
+        <mat-list-item>
+          <span>Last Name: {{feedbackCopy.lastname}}</span> 
+        </mat-list-item>
+        <mat-list-item>
+          <span>Tel. Number: {{feedbackCopy.telnum}}</span> 
+        </mat-list-item>
+        <mat-list-item>
+          <span>Email: {{feedbackCopy.email}}</span> 
+        </mat-list-item>
+        <mat-list-item>
+          <span>Contact You?: {{feedbackCopy.agree}}</span> 
+        </mat-list-item>
+        <mat-list-item>
+          <span>How?: {{feedbackCopy.contacttype}}</span> 
+        </mat-list-item>
+        <mat-list-item>
+          <span>Feedback: {{feedbackCopy.message}}</span> 
+        </mat-list-item>
+      </mat-list>
+    </div>
+    <div fxFlex *ngIf="showForm" [@expand]>
+      <p>{{ feedbackForm.value | json}} {{ feedbackForm.status | json }}</p>
+      <form novalidate [formGroup]="feedbackForm" (ngSubmit)="onSubmit()" #fform="ngForm" >
+        <p>
+          <mat-form-field class="half-width">
+            <input matInput formControlName='firstname' placeholder="Full Name" type="text" required minlength="2" maxlength="25">
+            <mat-error *ngIf="formErrors.firstname">{{ formErrors.firstname }}</mat-error>
+          </mat-form-field>
+          <mat-form-field class="half-width" style="float: right;">
+            <input matInput formControlName='lastname' placeholder="Last Name" type="text" required minlength="2" maxlength="25">
+            <!--Following code can be highly reduced because we have done everthing in our component file-->
+            <!--mat-error *ngIf="feedbackForm.get('lastname').hasError('required') && feedbackForm.get('lastname').touched">Last name is required</!--mat-error-->
+            <mat-error *ngIf="formErrors.lastname">{{formErrors.lastname}}</mat-error>
+          </mat-form-field>
+        </p>
+        <p>
+          <mat-form-field class="half-width">
+            <input matInput formControlName='telnum' placeholder="Telephone Number" type="tel" required pattern="[0-9]*">
+            <mat-error *ngIf="formErrors.telnum">{{formErrors.telnum}}</mat-error>
+          </mat-form-field>
+          <mat-form-field class="half-width" style="float: right;">
+            <input matInput formControlName='email' placeholder="E-mail" type="email" required email>
+            <mat-error *ngIf="formErrors.email">{{formErrors.email}}</mat-error>
+          </mat-form-field>
+        </p>
+        <table class="form-size">
+          <td>
+            <mat-slide-toggle [(ngModel)]="agree" formControlName="agree">May we contact you?</mat-slide-toggle>
+          </td>
+          <td>
+              <mat-select *ngIf="agree" placeholder="How?" formControlName="contacttype">
+                <mat-option *ngFor="let ctype of contactType" [value]="ctype">
+                  {{ ctype }}
+                </mat-option>
+              </mat-select>
+          </td>
+        </table>
+        <p>
+          <mat-form-field  class="fullwidth">
+            <textarea matInput formControlName="message" placeholder="Your Feedback" rows=12>
+            </textarea>
+          </mat-form-field>
+        </p>
+        <button type="submit" mat-button [disabled]="feedbackForm.invalid">Submit</button>
+      </form>
+  </div>
+    <div fxFlex [hidden]="feedback" [@expand]>
+      <mat-spinner></mat-spinner> <h4>Submitting your feedback.....Please Wait</h4>
+    </div>
+  </div>
+  <div fxFlex *ngIf="errMsg">
+    <h2>Error</h2>
+    <h4>{{dishErrMsg}}</h4>
   </div>
 </div>

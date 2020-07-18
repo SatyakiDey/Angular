@@ -7,4 +7,5 @@ export class Feedback{
     contacttype:String;
     message:string;
 }
-export const ContactType=['None','Tel','Email'];
+//export const ContactType=['None','Tel','Email'];
+export const ContactType=['Tel','Email'];

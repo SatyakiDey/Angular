@@ -1,7 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import{FormBuilder,FormGroup, Validators} from '@angular/forms';
 import {Feedback,ContactType} from '../shared/feedback';
-import {flyInOut} from '../animations/app.animation';
+import {flyInOut,expand} from '../animations/app.animation';
+import {FeedbackService} from '../services/feedback.service';
 
 @Component({
   selector: 'app-contact',
@@ -12,14 +13,19 @@ import {flyInOut} from '../animations/app.animation';
     'style':'display:block;'
   },
   animations:[
-    flyInOut()
+    flyInOut(),
+    expand()
   ]
 })
 export class ContactComponent implements OnInit {
 
   feedbackForm :FormGroup; //formGroup's instance is used to represent and access a form in code
   feedback:Feedback;
+  feedbackCopy:Feedback;
   contactType=ContactType;
+  showForm:boolean;
+  showSpinner:boolean;
+  agree:boolean=false;
 
   @ViewChild('fform') feedbackFormDirective; //this is used to access DOM elememts of the template. We can obtain references to template elements and have them injected into the our Component class by querying the template: that's what @ViewChild is for.
 
@@ -27,7 +33,7 @@ export class ContactComponent implements OnInit {
     'firstname':'',
     'lastname':'',
     'telnum':'',
-    'email':''
+    'email':'',
   };
 
   validationMessages={
@@ -50,8 +56,11 @@ export class ContactComponent implements OnInit {
       'email':'Email not in valid format.'
     }
   };
+  errMsg: string;
 
-  constructor(private fb:FormBuilder) {  //formBuilder is used to create formGroups and use formControl. Creating it inside a constructor means that it'll get created when the class is created(Dependency Injection).
+  constructor(private fb:FormBuilder,
+    private feedbackService:FeedbackService,
+    @Inject('BaseURL') private BaseURL) {  //formBuilder is used to create formGroups and use formControl. Creating it inside a constructor means that it'll get created when the class is created(Dependency Injection).
 
     this.createForm(); //used to create the form according to Angular's form styling guidelines.
   }
@@ -77,6 +86,8 @@ export class ContactComponent implements OnInit {
       .subscribe(data => this.onValueChanged(data)); //data returned by the Observable is sent as a parameter to the 'onValueChanaged()' method
 
       this.onValueChanged(); //reset form validation messages
+      this.feedback=this.feedbackForm.value;
+      this.showForm=true;
     }
 
     onValueChanged(data?:any){ 
@@ -106,14 +117,27 @@ export class ContactComponent implements OnInit {
     }
 
     onSubmit(){
-      this.feedback=this.feedbackForm.value;
-      console.log(this.feedback);
+      this.showForm=false;
+      this.feedback=null;
+      this.feedbackService.postFeedback(this.feedbackForm.value)
+      .subscribe(feedback => {
+        setTimeout(() => {
+        this.feedbackCopy=null;
+        this.showForm=true;
+        },5000);
+        this.feedback=feedback;
+        this.feedbackCopy=feedback;
+      }, errMsg => {
+        this.feedback=null;
+        this.feedbackCopy=null;
+        this.errMsg=<any>errMsg;
+      });
       this.feedbackForm.reset({
         firstname:'',
         lastname:'',
         telnum:0,
         agree:false,
-        contact:'None',
+        contacttype:'',
         message:''
       }); //this is done to reset the form attributes to the default values, using just reset() will only clear out all the fields of the forms.
       this.feedbackFormDirective.resetForm();
