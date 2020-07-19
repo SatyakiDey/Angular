@@ -71,7 +71,7 @@ export class DishService {
     .pipe(catchError(this.processHTTPMsgService.handleError));
   }
 
-  getDishIds():Observable<string []>{
+  getDishIds():Observable<string[] | any>{
     //return of(DISHES.map(dish => dish.id));
     return this.getDishes().pipe(map(dishes => dishes.map(dish => dish.id)))
     .pipe(catchError(error => error)); //The first 'dishes' parameter is a Dish[] with all the dish details. This parameter is used by first 'map' operator to operate on this Dish[] which is then sent to the inner 'map' operator to operate on each dish elements to get it's repective id. 'Map' operator is used because it can operate on Observables.
