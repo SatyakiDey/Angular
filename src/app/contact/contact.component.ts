@@ -25,7 +25,7 @@ export class ContactComponent implements OnInit {
   contactType=ContactType;
   showForm:boolean;
   showSpinner:boolean;
-  agree:boolean=false;
+  agree :boolean=false;
 
   @ViewChild('fform') feedbackFormDirective; //this is used to access DOM elememts of the template. We can obtain references to template elements and have them injected into the our Component class by querying the template: that's what @ViewChild is for.
 
@@ -84,6 +84,8 @@ export class ContactComponent implements OnInit {
 
       this.feedbackForm.valueChanges
       .subscribe(data => this.onValueChanged(data)); //data returned by the Observable is sent as a parameter to the 'onValueChanaged()' method
+      this.feedbackForm.get('agree').valueChanges
+      .subscribe(data => this.setContactValidator(data));
 
       this.onValueChanged(); //reset form validation messages
       this.feedback=this.feedbackForm.value;
@@ -114,6 +116,15 @@ export class ContactComponent implements OnInit {
           }
         }
       }
+    }
+
+    setContactValidator(data:boolean){
+      const contactTypeCheck=this.feedbackForm.get('contacttype');
+      if(data === true)
+        contactTypeCheck.setValidators([Validators.required]);
+      if(data === false)
+        contactTypeCheck.setValidators(null);
+      contactTypeCheck.updateValueAndValidity();
     }
 
     onSubmit(){
